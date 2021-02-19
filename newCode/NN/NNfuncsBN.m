@@ -101,7 +101,7 @@ EPS=10^-7;
 %                 end
 %             end
             if (k>15 && f>lt) || isnan(f) || isinf(f)
-                disp('reinitializing NN weights');
+%                 disp('reinitializing NN weights');
                 badInit=true;
                 break
             end

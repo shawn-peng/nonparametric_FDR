@@ -49,7 +49,7 @@ classdef uniformMixture < mixture
         end
         
         function c = cdf(this,x)
-            ixBinned=x.IX;
+            ixBinned=this.bin(x).IX;
             xx=double(x);
             c= zeros(length(x),1);
             ix = 1:length(x);
@@ -107,6 +107,16 @@ classdef uniformMixture < mixture
                 end
             end
             xBinned=binnedDouble(x,IX);
+        end
+        
+        function s = sample(this, n)
+            ncomps=length(this.mixProp);
+            ind = randsample(ncomps,n,true,this.mixProp);
+            s = zeros(n, 1);
+            for i = 1:n
+                x = random(this.comps{ind(i)},1);
+                s(i) = x;
+            end
         end
   
    end

@@ -9,6 +9,17 @@ xx=double(x);
 [mu,ss]=predictMuAndSS(zeta.D1,x);
 %p2=pdf(zeta.I2,x);
 
+% I1_rep = repmat(I1, 1, n);
+% u_rep = repmat(u, 1, n);
+% xx_rep = repmat(xx', length(I1), 1);
+% mu_rep = repmat(mu', length(I1), 1);
+% ss_rep = repmat(ss', length(I1), 1);
+% diff = I1_rep - xx_rep;
+% flags = (u_rep - xx_rep) >= 0;
+% 
+% w = tnPdf(diff, mu_rep, sqrt(ss_rep));
+% w(~flags) = 0;
+
 for i=1:n
     diff=I1-xx(i);
     jx=diff>=I1-u;

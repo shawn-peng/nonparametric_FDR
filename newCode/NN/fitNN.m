@@ -17,9 +17,10 @@ eta=opts.eta;
 %SS=x^.2;
 
 WIDTH=[1,width,1];
-act1=@relu;
+% act1=@relu;
 %act1=@sigmoid;
-act2=@softPl;
+% act2=@softPl;
+act1 = 
 aa={};aa(1:nH)={act1};
 ACTS={aa{:}, act2};
 y=y';

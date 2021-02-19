@@ -3,7 +3,7 @@ a=zeta.alpha;
 n=length(x);
 x=sort(x);
 xI=I1Sample(zeta,n);
-xC=SNSample(zeta.C,n);
+xC=sample(zeta.C,n);
 n1=ceil(a*n);
 xm=[max(xI(1:n1),xC(1:n1));xI(n1+1:end)];
 fdr=nan(n,1);
@@ -20,5 +20,6 @@ end
 [~,im]=min(abs(fdr-0.01));
 t1p=x(im);
 fdr1p=fdr(im);
+x=zeta.I2.bin(x);
 end
 

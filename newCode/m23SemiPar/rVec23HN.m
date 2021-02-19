@@ -9,5 +9,8 @@ r0(isnan(r0))=0;
 r11(isnan(r11))= 0;
 r101(isnan(r101))=0;
 r100(isnan(r100))=0;
+
+% r0+r11+r101+r100
+
 end
 

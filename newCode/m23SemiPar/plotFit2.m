@@ -24,10 +24,10 @@ s2=sort(mat(:,2));
 % histogram(s3,100,'Normalization','pdf');
 % hold off;
 
-[p1,p1_c,p1_I1]=s1Dens(s1,zeta);
-[p2,p2_c,p2_I1,p2_I2]=s2Dens(s2,zeta);
+% [p1,p1_c,p1_I1]=s1Dens(s1,zeta);
+% [p2,p2_c,p2_I1,p2_I2]=s2Dens(s2,zeta);
 
-% [p1,p1_c,p1_I1,p2,p2_c,p2_I1,p2_I2] = s1s2Dens(s1, s2, zeta);
+[p1,p1_c,p1_I1,p2,p2_c,p2_I1,p2_I2] = s1s2Dens(s1, s2, zeta);
 
 subplot(2,2,3);
 hold off

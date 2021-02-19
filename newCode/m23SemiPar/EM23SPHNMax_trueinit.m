@@ -1,4 +1,4 @@
-function [zetaBest,llBest,lls,i] = EM23SPHNMax(mat,K,Z)
+function [zetaBest,llBest,lls,i] = EM23SPHNMax(mat,K,Z,xc,xi1,xi2)
 s1=mat(:,1);
 s2=mat(:,2);
 llBest=-inf;
@@ -46,8 +46,8 @@ end
 %s_I3=s_I3(ix2);
 
 M=length(s1);
-if nargin<5
-    [zeta0,S1,S2]=initPar(s1,s2);
+if nargin<8
+    [zeta0,S1,S2]=initPar(s1,s2,xc,xi1,xi2);
 else
     S1=zeta0.C.bin(s1);
     S2=zeta0.C.bin(s2);
@@ -114,19 +114,19 @@ while true
     zetaN9.D1.ss= sum((diffNTC.^2).*r_I1)/sum(r_I1) - zetaN9.D1.mu^2;
     
     zetaN=zetaN9;
-    subplot(1,2,1)
-    [mu,ss]=predictMuAndSS(zetaN.D1,S2);
-        scatter(S2,diff_ss)
-        hold on
-        scatter(S2,ss);
-        hold off
-        subplot(1,2,2)
-        scatter(S2,diff_mu)
-        hold on
-        scatter(S2,mu);
-        hold off
-  %  llN9 = loglikelihood23HN(S1,S2,zetaN)
-    pause(0.1);
+%     subplot(1,2,1)
+%     [mu,ss]=predictMuAndSS(zetaN.D1,S2);
+%         scatter(S2,diff_ss)
+%         hold on
+%         scatter(S2,ss);
+%         hold off
+%         subplot(1,2,2)
+%         scatter(S2,diff_mu)
+%         hold on
+%         scatter(S2,mu);
+%         hold off
+%   %  llN9 = loglikelihood23HN(S1,S2,zetaN)
+%     pause(0.1);
 
     zetaN10 = zetaN;
    
@@ -173,18 +173,27 @@ end
     
 
  
-    function [zeta,S1,S2] = initPar(s1,s2)
+    function [zeta,S1,S2] = initPar(s1,s2,xc,xi1,xi2)
         zeta=struct();
         zeta.alpha=0.5;
         zeta.beta=0.5;
-        [dC,dI2,S1,S2]=densEst_hist(s1,s2);
-        zeta.C=dC;
-        zeta.I2=dI2;
+        [dC,dI2,S1,S2]=densEst_hist (s1,s2);
+        
+        cBin=dC.bin(xc);
+%         S1=cBin;
+        dC=dC.fixedCompsFit(cBin);
+        
+        i2Bin=dI2.bin(xi2);
+%         S2=i2Bin;
+        dI2=dI2.fixedCompsFit(i2Bin);
         
 %         ixx=s1>median(s1);
 %         opts.W=[2,3];
 %         zeta.D1.netMu=fitNN(s2(~ixx),diff_mu(~ixx),opts);
 %         zeta.D1.netSS=fitNN(s2(~ixx),diff_ss(~ixx),opts);
+        
+        zeta.C=dC;
+        zeta.I2=dI2;
         
         zeta.D1.mu=0;
         zeta.D1.ss=1;
