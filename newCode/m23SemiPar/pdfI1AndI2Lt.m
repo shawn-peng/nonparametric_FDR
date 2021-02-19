@@ -1,0 +1,19 @@
+function p = pdfI1AndI2Lt(zeta,I1,up)
+n=10000;
+w=nan(length(I1),n);
+x=zeta.I2.random(n);
+xx=double(x);
+[mu,ss]=predictMuAndSS(zeta.D1,x);
+%p2=snPdf(x,zeta.I2);
+
+
+for i=1:n
+    diff=I1-xx(i);
+    jx=diff>=I1-up;
+    w(jx,i)= tnPdf(diff(jx),mu(i),sqrt(ss(i)));
+    w(~jx,i)=0;
+end
+p=mean(w,2);
+%mn=min(p(p>0));
+%p(p==0)=mn;
+end

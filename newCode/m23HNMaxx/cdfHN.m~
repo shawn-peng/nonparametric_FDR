@@ -1,0 +1,45 @@
+function [p,P] = pdfAndCdfI2(thetaD2,thetaI,x)
+n=10000;
+z = SNSample(thetaI,n);
+[mu,ss]=predictMuAndSS(thetaD2,z);
+
+diff0=-mu./sqrt(ss);
+P0=normcdf(diff0);
+
+diff=bsxfun(@minus,z,x');
+ix=diff<0;
+diff=diff-repmat(mu',length(x),1);
+diff=diff./sqrt(ss);
+pmat=normpdf(diff);
+pmat(ix)=0;
+pmat=pmat./(1-P0');
+
+PMat=normcdf(diff);
+PMat=PMat-repmat(P0',length(x),1);
+PMat(ix)=0;
+PMat=PMat./(1-P0');
+
+% xx=sort(xx);
+% p=nan(length(ub),1);
+% for i=1:length(ub)
+%     ubix = searchUB(xx,ub(i));
+%     p(i)=ubix/n;
+% end
+% 
+%     function u = searchUB(xx,x)
+%         l=1;
+%         u=n;
+%         while true
+%             ix=floor((l+u)/2);
+%             if ix==l||ix==u
+%                 break;
+%             end
+%             if xx(ix) < x
+%                 l=ix;
+%             else
+%                 u=ix;
+%             end
+%         end
+%      end
+end
+
